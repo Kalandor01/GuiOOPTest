@@ -5,12 +5,11 @@
 package guiooptest;
 
 import java.awt.Color;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 /**
  *
@@ -19,14 +18,28 @@ import javax.swing.JPanel;
 public class GuiOOPTest extends javax.swing.JFrame {
 
     JButton[] pinButtons;
+    boolean xStarts;
     
     /**
      * Creates new form GuiOOPTest
      */
     public GuiOOPTest() {
         initComponents();
-        createPinButtions();
-        showPinButtons();
+        this.xStarts = true;
+        
+        XStartButton.addActionListener(new ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                generateTictactoeField();
+            }
+        });
+        
+        OStartButton.addActionListener(new ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                generateTictactoeField();
+            }
+        });
+ 
+        restart();
     }
 
     /**
@@ -52,7 +65,7 @@ public class GuiOOPTest extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        tictactoeSizeList = new javax.swing.JList<>();
         XStartButton = new javax.swing.JRadioButton();
         OStartButton = new javax.swing.JRadioButton();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -84,11 +97,6 @@ public class GuiOOPTest extends javax.swing.JFrame {
         loginSettingsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Beállítás"));
 
         shuffleCheckBox.setText("kever");
-        shuffleCheckBox.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                shuffleCheckBoxStateChanged(evt);
-            }
-        });
         shuffleCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 shuffleCheckBoxActionPerformed(evt);
@@ -148,29 +156,24 @@ public class GuiOOPTest extends javax.swing.JFrame {
         jTabbedPane1.addTab("Bejelentkezés", bejelentkezésPanel);
 
         tictactoePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Amőba"));
-
-        javax.swing.GroupLayout tictactoePanelLayout = new javax.swing.GroupLayout(tictactoePanel);
-        tictactoePanel.setLayout(tictactoePanelLayout);
-        tictactoePanelLayout.setHorizontalGroup(
-            tictactoePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 119, Short.MAX_VALUE)
-        );
-        tictactoePanelLayout.setVerticalGroup(
-            tictactoePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
+        tictactoePanel.setLayout(new java.awt.GridLayout(3, 3));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Beállítás"));
         jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.Y_AXIS));
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(30, 70));
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        tictactoeSizeList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "3*3", "4*4", "5*5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(jList1);
+        tictactoeSizeList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                tictactoeSizeListValueChanged(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tictactoeSizeList);
 
         jScrollPane2.setViewportView(jScrollPane1);
 
@@ -191,19 +194,21 @@ public class GuiOOPTest extends javax.swing.JFrame {
             jatekPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jatekPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(tictactoePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tictactoePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(152, Short.MAX_VALUE))
+                .addGap(143, 143, 143))
         );
         jatekPanelLayout.setVerticalGroup(
             jatekPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jatekPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jatekPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tictactoePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(142, Short.MAX_VALUE))
+                    .addGroup(jatekPanelLayout.createSequentialGroup()
+                        .addComponent(tictactoePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(22, 22, 22))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(142, 142, 142))
         );
 
         jTabbedPane1.addTab("Játék", jatekPanel);
@@ -260,10 +265,6 @@ public class GuiOOPTest extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void shuffleCheckBoxStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_shuffleCheckBoxStateChanged
-        
-    }//GEN-LAST:event_shuffleCheckBoxStateChanged
-
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         closingWindow();
     }//GEN-LAST:event_formWindowClosing
@@ -279,6 +280,10 @@ public class GuiOOPTest extends javax.swing.JFrame {
     private void shuffleCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shuffleCheckBoxActionPerformed
         clickShuffleButton();
     }//GEN-LAST:event_shuffleCheckBoxActionPerformed
+
+    private void tictactoeSizeListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_tictactoeSizeListValueChanged
+        generateTictactoeField();
+    }//GEN-LAST:event_tictactoeSizeListValueChanged
 
     private void closingWindow() {
         int res = JOptionPane.showConfirmDialog(this, "Kilépsz?","Kilépés", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
@@ -339,8 +344,32 @@ public class GuiOOPTest extends javax.swing.JFrame {
     private void restart() {
         pinCodeTextField.setText("");
         shuffleCheckBox.setSelected(false);
+        XStartButton.setSelected(true);
         createPinButtions();
         showPinButtons();
+    }
+    
+    private void generateTictactoeField() {
+        this.xStarts = XStartButton.isSelected();
+        int fieldSize = tictactoeSizeList.getSelectedIndex() + 3;
+        fillTictactoeField(fieldSize);
+    }
+    
+    private void fillTictactoeField(int fieldSize) {
+        tictactoePanel.removeAll();
+        tictactoePanel.setLayout(new GridLayout(fieldSize, fieldSize));
+        for (int x = 0; x < fieldSize * fieldSize; x++) {
+            JButton but = new JButton("");
+            but.addActionListener(this::clickTttButton);
+            tictactoePanel.add(but);
+        }
+        tictactoePanel.revalidate();
+    }
+    
+    private void clickTttButton(ActionEvent e) {
+        JButton but = (JButton)e.getSource();
+        but.setText(this.xStarts?"X":"O");
+        this.xStarts = !this.xStarts;
     }
     
     /**
@@ -386,7 +415,6 @@ public class GuiOOPTest extends javax.swing.JFrame {
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
@@ -403,6 +431,9 @@ public class GuiOOPTest extends javax.swing.JFrame {
     private javax.swing.JCheckBox shuffleCheckBox;
     private javax.swing.ButtonGroup startingSymbol;
     private javax.swing.JPanel tictactoePanel;
+    private javax.swing.JList<String> tictactoeSizeList;
     // End of variables declaration//GEN-END:variables
+
+    
 
 }
