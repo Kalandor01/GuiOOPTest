@@ -5,10 +5,13 @@
 package guiooptest;
 
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JOptionPane;
 
 /**
@@ -27,16 +30,32 @@ public class GuiOOPTest extends javax.swing.JFrame {
         initComponents();
         this.xStarts = true;
         
-        XStartButton.addActionListener(new ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                generateTictactoeField();
-            }
+        XStartButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            generateTictactoeField();
         });
         
-        OStartButton.addActionListener(new ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                generateTictactoeField();
-            }
+        OStartButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            generateTictactoeField();
+        });
+        
+        retryMenuButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            restart();
+        });
+        
+        exitMenuButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            closingWindow();
+        });
+        
+        shuffleCheckBox.addActionListener((java.awt.event.ActionEvent evt) -> {
+            clickShuffleButton();
+        });
+        
+        tttHorizontalMenuButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            tttSetOrientation(evt);
+        });
+        
+        tttVerticalMenuButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            tttSetOrientation(evt);
         });
  
         restart();
@@ -62,7 +81,7 @@ public class GuiOOPTest extends javax.swing.JFrame {
         pinCodeTextField = new javax.swing.JTextField();
         jatekPanel = new javax.swing.JPanel();
         tictactoePanel = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        gameSettitngsPanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         tictactoeSizeList = new javax.swing.JList<>();
@@ -70,11 +89,11 @@ public class GuiOOPTest extends javax.swing.JFrame {
         OStartButton = new javax.swing.JRadioButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        retryMenuButton = new javax.swing.JMenuItem();
+        exitMenuButton = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
-        jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
-        jCheckBoxMenuItem2 = new javax.swing.JCheckBoxMenuItem();
+        tttHorizontalMenuButton = new javax.swing.JCheckBoxMenuItem();
+        tttVerticalMenuButton = new javax.swing.JCheckBoxMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(410, 350));
@@ -97,11 +116,6 @@ public class GuiOOPTest extends javax.swing.JFrame {
         loginSettingsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Beállítás"));
 
         shuffleCheckBox.setText("kever");
-        shuffleCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                shuffleCheckBoxActionPerformed(evt);
-            }
-        });
 
         jLabel1.setText("kód:");
 
@@ -158,8 +172,8 @@ public class GuiOOPTest extends javax.swing.JFrame {
         tictactoePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Amőba"));
         tictactoePanel.setLayout(new java.awt.GridLayout(3, 3));
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Beállítás"));
-        jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.Y_AXIS));
+        gameSettitngsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Beállítás"));
+        gameSettitngsPanel.setLayout(new javax.swing.BoxLayout(gameSettitngsPanel, javax.swing.BoxLayout.Y_AXIS));
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(30, 70));
 
@@ -177,16 +191,16 @@ public class GuiOOPTest extends javax.swing.JFrame {
 
         jScrollPane2.setViewportView(jScrollPane1);
 
-        jPanel2.add(jScrollPane2);
+        gameSettitngsPanel.add(jScrollPane2);
 
         startingSymbol.add(XStartButton);
         XStartButton.setSelected(true);
         XStartButton.setText("\"X\" kezd");
-        jPanel2.add(XStartButton);
+        gameSettitngsPanel.add(XStartButton);
 
         startingSymbol.add(OStartButton);
         OStartButton.setText("\"O\" kezd");
-        jPanel2.add(OStartButton);
+        gameSettitngsPanel.add(OStartButton);
 
         javax.swing.GroupLayout jatekPanelLayout = new javax.swing.GroupLayout(jatekPanel);
         jatekPanel.setLayout(jatekPanelLayout);
@@ -196,7 +210,7 @@ public class GuiOOPTest extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(tictactoePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(gameSettitngsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(143, 143, 143))
         );
         jatekPanelLayout.setVerticalGroup(
@@ -207,7 +221,7 @@ public class GuiOOPTest extends javax.swing.JFrame {
                     .addGroup(jatekPanelLayout.createSequentialGroup()
                         .addComponent(tictactoePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(22, 22, 22))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(gameSettitngsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(142, 142, 142))
         );
 
@@ -215,35 +229,25 @@ public class GuiOOPTest extends javax.swing.JFrame {
 
         jMenu2.setText("Program");
 
-        jMenuItem1.setText("Újra");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        jMenu2.add(jMenuItem1);
+        retryMenuButton.setText("Újra");
+        jMenu2.add(retryMenuButton);
 
-        jMenuItem2.setText("Kilépés");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
-            }
-        });
-        jMenu2.add(jMenuItem2);
+        exitMenuButton.setText("Kilépés");
+        jMenu2.add(exitMenuButton);
 
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("Játék elrendezése");
         elrendezés.add(jMenu3);
 
-        elrendezés.add(jCheckBoxMenuItem1);
-        jCheckBoxMenuItem1.setSelected(true);
-        jCheckBoxMenuItem1.setText("vizszintes");
-        jMenu3.add(jCheckBoxMenuItem1);
+        elrendezés.add(tttHorizontalMenuButton);
+        tttHorizontalMenuButton.setSelected(true);
+        tttHorizontalMenuButton.setText("vizszintes");
+        jMenu3.add(tttHorizontalMenuButton);
 
-        elrendezés.add(jCheckBoxMenuItem2);
-        jCheckBoxMenuItem2.setText("függőleges");
-        jMenu3.add(jCheckBoxMenuItem2);
+        elrendezés.add(tttVerticalMenuButton);
+        tttVerticalMenuButton.setText("függőleges");
+        jMenu3.add(tttVerticalMenuButton);
 
         jMenuBar1.add(jMenu3);
 
@@ -268,18 +272,6 @@ public class GuiOOPTest extends javax.swing.JFrame {
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         closingWindow();
     }//GEN-LAST:event_formWindowClosing
-
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        closingWindow();
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
-
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        restart();
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-
-    private void shuffleCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shuffleCheckBoxActionPerformed
-        clickShuffleButton();
-    }//GEN-LAST:event_shuffleCheckBoxActionPerformed
 
     private void tictactoeSizeListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_tictactoeSizeListValueChanged
         generateTictactoeField();
@@ -347,6 +339,7 @@ public class GuiOOPTest extends javax.swing.JFrame {
         XStartButton.setSelected(true);
         createPinButtions();
         showPinButtons();
+        tictactoeSizeList.setSelectedIndex(0);
     }
     
     private void generateTictactoeField() {
@@ -370,6 +363,19 @@ public class GuiOOPTest extends javax.swing.JFrame {
         JButton but = (JButton)e.getSource();
         but.setText(this.xStarts?"X":"O");
         this.xStarts = !this.xStarts;
+    }
+    
+    private void tttSetOrientation(ActionEvent evt) {
+        JCheckBoxMenuItem s = (JCheckBoxMenuItem)evt.getSource();
+        if(s == tttHorizontalMenuButton) {
+            jatekPanel.setLayout(new FlowLayout());
+            gameSettitngsPanel.setLayout(new BoxLayout(gameSettitngsPanel, BoxLayout.Y_AXIS));
+        }
+        else {
+            jatekPanel.setLayout(new BoxLayout(jatekPanel, BoxLayout.Y_AXIS));
+            gameSettitngsPanel.setLayout(new BoxLayout(gameSettitngsPanel, BoxLayout.X_AXIS));
+        }
+        this.revalidate();
     }
     
     /**
@@ -412,15 +418,12 @@ public class GuiOOPTest extends javax.swing.JFrame {
     private javax.swing.JRadioButton XStartButton;
     private javax.swing.JPanel bejelentkezésPanel;
     private javax.swing.ButtonGroup elrendezés;
-    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
-    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem2;
+    private javax.swing.JMenuItem exitMenuButton;
+    private javax.swing.JPanel gameSettitngsPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
@@ -428,12 +431,14 @@ public class GuiOOPTest extends javax.swing.JFrame {
     private javax.swing.JPanel loginSettingsPanel;
     private javax.swing.JTextField pinCodeTextField;
     private javax.swing.JPanel pinPadPanel;
+    private javax.swing.JMenuItem retryMenuButton;
     private javax.swing.JCheckBox shuffleCheckBox;
     private javax.swing.ButtonGroup startingSymbol;
     private javax.swing.JPanel tictactoePanel;
     private javax.swing.JList<String> tictactoeSizeList;
+    private javax.swing.JCheckBoxMenuItem tttHorizontalMenuButton;
+    private javax.swing.JCheckBoxMenuItem tttVerticalMenuButton;
     // End of variables declaration//GEN-END:variables
 
-    
 
 }
