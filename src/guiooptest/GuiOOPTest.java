@@ -361,8 +361,10 @@ public class GuiOOPTest extends javax.swing.JFrame {
     
     private void clickTttButton(ActionEvent e) {
         JButton but = (JButton)e.getSource();
-        but.setText(this.xStarts?"X":"O");
-        this.xStarts = !this.xStarts;
+        if(but.getText().equals("")) {
+            but.setText(this.xStarts?"X":"O");
+            this.xStarts = !this.xStarts;
+        }
     }
     
     private void tttSetOrientation(ActionEvent evt) {
